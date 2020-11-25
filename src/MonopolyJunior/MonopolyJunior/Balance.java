@@ -20,6 +20,11 @@ public class Balance {
 
     }
 
+
+    public boolean isBroke() {
+        return value < 0;
+    }
+
     public int get(){
         return value;
     }

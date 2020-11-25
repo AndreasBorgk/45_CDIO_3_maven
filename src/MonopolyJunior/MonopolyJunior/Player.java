@@ -9,6 +9,7 @@ public class Player {
     private Balance balance;
     private int gamesWon = 0;
     private Boolean inJail = false;
+    boolean broken = false;
 
 
     Player(String name, int age)
@@ -58,19 +59,19 @@ public class Player {
         balance.add(-value);
     }
 
-    public void setInJail(){
-        if(inJail = true){
-            setLocation(location=6);
-        }
-
+    public void getRent(int value) {
+        balance.add(value);
     }
 
-    public boolean isInJail() {
-        if (location == 18){
-            setLocation(6);
-        }
+
+    public void setInJail(){
+        inJail = true;
+    }
+
+    public Boolean isInJail() {
         return inJail;
     }
+
 
     public void releaseFromJail() {
         inJail = false;
@@ -115,6 +116,11 @@ public class Player {
         location = 0;
         this.balance.reset(); // as we use balance.reset, we set value of our balance = 1000.
 
+    }
+
+
+    public boolean isBroke() {
+        return broken;
     }
 
 

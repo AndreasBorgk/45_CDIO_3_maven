@@ -9,31 +9,24 @@ import java.util.Scanner;
         private static Board b = new Board();
         static Scanner sc = new Scanner(System.in);
         private static int currentPlayerNumber;
+        private static int playerCount;
         private static Player currentPlayer;
-        private static Player p;
 
 
-
-        private static void updatedBalance(Player currentPlayer) // function to update the current
-        // Players balance given the vectors field value.
-        {
-            Field f = b.getField(currentPlayer.getLocation());
-            handleField(currentPlayer);
-        }
 
         private static String fieldName(Player currentPlayer) // prints out the given locations
         // fieldname for the current player
         {
-            Field f = b.getField(currentPlayer.getLocation());
+            IField f = b.getField(currentPlayer.getLocation());
             return f.name;
         }
 
-        private static int fieldValue(Player currentPlayer)
-        // prints out the fieldValue for the current location.
-        {
-            Field f = b.getField(currentPlayer.getLocation());
-            return f.value;
-        }
+//        private static int fieldValue(Player currentPlayer)
+//        // prints out the fieldValue for the current location.
+//        {
+//            IField f = b.getField(currentPlayer.getLocation());
+//            return f.value;
+//        }
 
         private static String playerName() {
             System.out.println("what is your name? ");
@@ -57,10 +50,7 @@ import java.util.Scanner;
 
         private static int getPlayerCount() {
             System.out.println("How many players are playing? ");
-
             Scanner amountScanner = new Scanner(System.in);
-
-            int playerCount = 0;
 
             while (true) {
                 playerCount = amountScanner.nextInt();
@@ -76,7 +66,7 @@ import java.util.Scanner;
             }
         }
 
-        private static int calcStartAmount(int playerCount) {
+        private static int calcStartAmount() {
             int startAmount = 0;
 
             switch(playerCount){
@@ -98,8 +88,10 @@ import java.util.Scanner;
 
         private static void setupGame(){
             System.out.println("rule for our Monopoly Junior game: \n");
-            int playerCount = getPlayerCount();
-            int startAmount = calcStartAmount(playerCount);
+
+            getPlayerCount();
+
+            int startAmount = calcStartAmount();
 
             players = new Player[playerCount];
 
@@ -115,10 +107,10 @@ import java.util.Scanner;
 
 
 
-        private static void handleSpecielEvent(Player currentPlayer) {
+        private static void handleIfPlayerIsInJail(Player currentPlayer) {
             if(currentPlayer.isInJail()){
-                currentPlayer.payFine(100);
-                //Value need to be present somewhere.. not as shown here.
+                currentPlayer.payFine(2);
+                currentPlayer.releaseFromJail();
             }
         }
         private static void handleField(Player currentPlayer) {
@@ -134,12 +126,12 @@ import java.util.Scanner;
         }
 
         private static Player setCurrentPlayer(int index){
-            currentPlayer = players[index % getPlayerCount()];
+            currentPlayer = players[index % playerCount];
             return currentPlayer;
         }
 
         private static Player nextPlayersTurn(){
-          int playerCount = getPlayerCount();
+
           currentPlayerNumber = (currentPlayerNumber +1) % playerCount;
           currentPlayer = players[currentPlayerNumber];
           return currentPlayer;
@@ -148,27 +140,19 @@ import java.util.Scanner;
 
         private static void doTurn() {
             //used from CDIO1, with changes.
-            setCurrentPlayer(0);
            do {
                System.out.println(currentPlayer.getName() + " press 'K' if you are ready to throw");
                sc.next(); // ask if theyre ready to throw, by pressing K they throw.
 
-               handleSpecielEvent(currentPlayer);  // In jail or stuff like that
+               handleIfPlayerIsInJail(currentPlayer);
+               //handleSpecialChanceCard(currentPlayer);  // Chancekort hvor man skal springe til et felt før næste runde.
                currentPlayer.roll(); // player rolls the dice
                printOutFieldInfo(currentPlayer);
-               handleField(currentPlayer);
-               updatedBalance(currentPlayer);
-               System.out.println(currentPlayer.getBalance());
-               nextPlayersTurn();
 
-               /*
-               updateBalance(currentPlayer); // the balance for the player updates
-               fieldName(currentPlayer); // fieldName gets saved.
-               System.out.println(currentPlayer.getName() + " rolls: " + currentPlayer.getFaceValue());
-               System.out.println("you landed on field: " + currentPlayer.getLocation() + ", " +
-               (fieldName(currentPlayer)) + ", with the value of: " fieldValue(currentPlayer));
-               System.out.println("your balance is: " + currentPlayer.getBalance());
-                */
+               handleField(currentPlayer);
+
+               System.out.println("new balance for " + currentPlayer.getName() + " is: " + currentPlayer.getBalance());
+
 
             } while (currentPlayer.isInJail());
             } // the loop continues until a player hit the estimated value
@@ -179,30 +163,22 @@ import java.util.Scanner;
 
         private static void playGame() { // used from cdio 1, with changes.
             int round = 1; // sets start round to 1.
+            setCurrentPlayer(0);
+            do {
+                doTurn();
+                nextPlayersTurn();
+            } while(!currentPlayer.isGameDone());
 
-
-               // System.out.println("current score is: " + p1.getName() + ": " + p1.getBalance() + " and " + p2.getName()
-               //         + ": " + p2.getBalance()); // prints out the current score.
             }
-            //if (currentPlayer.isGameDone()) { // checks if p1 has won, and if the player has, prints out name and balance.
-                //System.out.println(p1.getName() + " won with: " + p1.getBalance());
 
-               // p1.incGamesWon();
-               // System.out.println("Games won : " + p1.getGamesWon());
-
-            // (currentPlayer.isGameDone()) { // checks if p2 has won, and if the player has, prints out name and balance.
-                //System.out.println(p2.getName() + " won with: " + p2.getBalance());
-
-               // p2.incGamesWon();
-                // System.out.println(p2.getName() + " games won : " + p2.getGamesWon());
 
 
 
 
             private static void newGame() { // Used from cdio1, but with changes.
-            setupGame();
+                setupGame();
             String another = "y";
-
+                
             while (another.equalsIgnoreCase("y")) { // asks if they want to play again
                 // if yes, newgame Method will be called.
                 playGame();
@@ -210,7 +186,6 @@ import java.util.Scanner;
                 System.out.println("would you like to play again? (y/n)");
                 another = sc.next();
 
-               // players[clear];
 
             }
 
