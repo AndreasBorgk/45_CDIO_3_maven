@@ -18,7 +18,7 @@ public class Board {
         pizzahuset.setAssociation(burgerbar);
 
 
-        fields[i++] = new Field("Chance Kort",0);
+        fields[i++] = new TakeChanceCard();
 
         Property slikbutikken = new Property("Slikbutikken",1);
         fields[i++] = slikbutikken;
@@ -38,7 +38,7 @@ public class Board {
         biblioteket.setAssociation(museet);
 
 
-        fields[i++] = new Field("Chance kort",0);
+        fields[i++] = new TakeChanceCard();
 
         Property skaterparken = new Property("Skaterparken",2);
         fields[i++] = skaterparken;
@@ -57,7 +57,7 @@ public class Board {
         biografen.setAssociation(spillehallen);
 
 
-        fields[i++] = new Field("Chance Kort",0);
+        fields[i++] = new TakeChanceCard();
 
         Property legetøjsbutik = new Property("Legetøjs butikken",3);
         fields[i++] = legetøjsbutik;
@@ -77,7 +77,7 @@ public class Board {
         zoo.setAssociation(bowlinghallen);
 
 
-        fields[i++] = new Field("Chance Kort", 0);
+        fields[i++] = new TakeChanceCard();
 
 
         Property vandlandet = new Property("Vandlandet",5);

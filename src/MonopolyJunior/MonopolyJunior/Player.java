@@ -63,6 +63,10 @@ public class Player {
         balance.add(value);
     }
 
+    public void addBalance(int value){
+        balance.add(value);
+    }
+
 
     public void setInJail(){
         inJail = true;
@@ -90,9 +94,8 @@ public class Player {
     int getFaceValue(){
         return dice1.getFaceValue();
     }
-    public int setLocation(int location) {
-        this.location = location;
-        return location;
+    public void setLocation(int location) {
+        this.location = location % 24;
     }
 
 
