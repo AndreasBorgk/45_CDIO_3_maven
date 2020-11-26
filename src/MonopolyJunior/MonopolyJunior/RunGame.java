@@ -146,8 +146,8 @@ import java.util.Scanner;
         private static void doTurn() {
             //used from CDIO1, with changes.
            do {
-               System.out.println(currentPlayer.getName() + " press 'K' if you are ready to throw");
                handleIfPlayerIsOnVacation(currentPlayer);
+               System.out.println(currentPlayer.getName() + " press 'K' if you are ready to throw");
                sc.next(); // ask if theyre ready to throw, by pressing K they throw.
 
 
