@@ -55,8 +55,6 @@ import java.util.Scanner;
 
 
         private static int getPlayerCount() {
-            System.out.println("How many players are playing? ");
-            Scanner amountScanner = new Scanner(System.in);
 
             while (true) {
                 playerCount = gui.getUserInteger("How many are playing",2,4);

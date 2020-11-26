@@ -19,7 +19,7 @@ public class GUIBoard {
         Fields[i++] = new GUI_Street("Pizzahuset", "Koster M1", "Pizzahuset", "1", new Color(156, 52, 4), Color.BLACK);
         Fields[i++] = new GUI_Street("?", "Træk et chance kort", "Træk et chance kort","0", Color.BLACK, Color.yellow);
         Fields[i++] = new GUI_Street("Slikbutikken", "Koster M1", "Slikbutikken", "1", new Color(169, 157, 232), Color.BLACK);
-        Fields[i++] = new GUI_Street("Iskiosken", "Koster 2M", "Iskiosken", "1", new Color(169, 157, 232), Color.BLACK);
+        Fields[i++] = new GUI_Street("Iskiosken", "Koster M1", "Iskiosken", "1", new Color(169, 157, 232), Color.BLACK);
         Fields[i++] = new GUI_Street("GUI_Field.Image.GoToJail", "I fængsel", "På Besøg / Fængsel", "0", Color.orange, Color.BLACK);
         Fields[i++] = new GUI_Street("Museet", "Koster M2", "Museet", "2", new Color(182, 125, 142), Color.BLACK);
         Fields[i++] = new GUI_Street("Bibliotek", "Koster M2", "Bibliotek", "2", new Color(182, 125, 142), Color.BLACK);
