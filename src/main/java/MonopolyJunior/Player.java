@@ -10,7 +10,15 @@ public class Player {
     private int gamesWon = 0;
     private Boolean inJail = false;
     boolean broken = false;
+    int GUIid;
 
+    public int getGUIid() {
+        return GUIid;
+    }
+
+    public void setGUIid(int GUIid) {
+        this.GUIid = GUIid;
+    }
 
     Player(String name, int age)
     {

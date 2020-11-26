@@ -1,9 +1,13 @@
 package MonopolyJunior;
 
 
+import gui_fields.GUI_Player;
+import gui_fields.GUI_Street;
+import gui_main.GUI;
+
 import java.util.Scanner;
 
-    class Main {
+    class RunGame {
 
         private static Player players[];
         private static Board b = new Board();
@@ -11,12 +15,19 @@ import java.util.Scanner;
         private static int currentPlayerNumber;
         private static int playerCount;
         private static Player currentPlayer;
+        private static GUIBoard gb = new GUIBoard();
+        private static GUI_Player[] GUIplayers;
+
+
+        static GUI gui = new GUI(gb.getFields());
 
 
 
         private static String fieldName(Player currentPlayer) // prints out the given locations
         // fieldname for the current player
         {
+            GUI_Street gf = (GUI_Street) gb.getFields(currentPlayer.getLocation());
+
             IField f = b.getField(currentPlayer.getLocation());
             return f.name;
         }
@@ -29,20 +40,15 @@ import java.util.Scanner;
 //        }
 
         private static String playerName() {
-            System.out.println("what is your name? ");
-            
-            Scanner name = new Scanner(System.in);
 
-            String nameVal = name.nextLine();
+            String nameVal = gui.getUserString("What is your name?");
 
             return nameVal;
         }
+
         private static int playerAge() {
-            System.out.println("How old are you? ");
 
-            Scanner age = new Scanner(System.in);
-
-            int ageVal = age.nextInt();
+            int ageVal = gui.getUserInteger("How old are you");
 
             return ageVal;
         }
@@ -53,7 +59,7 @@ import java.util.Scanner;
             Scanner amountScanner = new Scanner(System.in);
 
             while (true) {
-                playerCount = amountScanner.nextInt();
+                playerCount = gui.getUserInteger("How many are playing",2,4);
 
                 if(playerCount < 2) {
                     System.out.println("You are not enough players.");
@@ -61,6 +67,8 @@ import java.util.Scanner;
                     System.out.println("you are too many players");
                 }  else {
                     System.out.println(playerCount + " players are playing.");
+                    GUIplayers = new GUI_Player[playerCount];
+
                     return playerCount;
                 }
             }
@@ -81,13 +89,22 @@ import java.util.Scanner;
                     startAmount = 16;
                     break;
             }
-            System.out.println("each player start with: " + startAmount);
+            gui.showMessage("each player start with: " + startAmount);
             return startAmount;
+        }
+
+        private static void addguiplayer(int i, String name,int balance){
+
+            GUIplayers[i] = new GUI_Player(name, balance);
+            gui.addPlayer(GUIplayers[i]);
+
+            gui.getFields()[0].setCar(GUIplayers[i], true);
+
         }
 
 
         private static void setupGame(){
-            System.out.println("rule for our Monopoly Junior game: \n");
+            gui.showMessage("rule for our Monopoly Junior game: \n");
 
             getPlayerCount();
 
@@ -98,6 +115,10 @@ import java.util.Scanner;
             for (int i = 0; i < playerCount; i++) {
 
                players[i] = new Player(playerName(), playerAge(), new Balance(startAmount));
+
+               players[i].setGUIid(i);
+
+                addguiplayer(i, players[i].getName(), players[i].getBalance());
 
                 System.out.println(players[i].getName() + " is " + players[i].getAge() + " years old. ");
 
@@ -120,9 +141,9 @@ import java.util.Scanner;
         }
 
         private static void printOutFieldInfo(Player currentPlayer){
-            System.out.println(currentPlayer.getName() + " rolls: " + currentPlayer.getFaceValue());
+            gui.showMessage(currentPlayer.getName() + " rolls: " + currentPlayer.getFaceValue());
 
-            System.out.println("You landed on field:  " + currentPlayer.getLocation() + ", " + fieldName(currentPlayer));
+            gui.showMessage("You landed on field:  " + currentPlayer.getLocation() + ", " + fieldName(currentPlayer));
         }
 
         private static Player setCurrentPlayer(int index){
@@ -141,17 +162,31 @@ import java.util.Scanner;
         private static void doTurn() {
             //used from CDIO1, with changes.
            do {
-               System.out.println(currentPlayer.getName() + " press 'K' if you are ready to throw");
-               sc.next(); // ask if theyre ready to throw, by pressing K they throw.
+//               gui.showMessage(currentPlayer.getName() + " press 'K' if you are ready to throw");
+//               sc.next(); // ask if theyre ready to throw, by pressing K they throw.
+
 
                handleIfPlayerIsInJail(currentPlayer);
+
+
                //handleSpecialChanceCard(currentPlayer);  // Chancekort hvor man skal springe til et felt før næste runde.
-               currentPlayer.roll(); // player rolls the dice
+
+               gui.getFields()[currentPlayer.getLocation()].setCar(GUIplayers[currentPlayer.getGUIid()], false);
+               if (gui.getUserLeftButtonPressed(" ", "Roll Die", " ")) {
+                   currentPlayer.roll();
+               }; // player rolls the dice
+               gui.getFields()[currentPlayer.getLocation()].setCar(GUIplayers[currentPlayer.getGUIid()], true);
                printOutFieldInfo(currentPlayer);
+               gui.setDie(currentPlayer.getFaceValue());
 
+               gui.getFields()[currentPlayer.getLocation()].setCar(GUIplayers[currentPlayer.getGUIid()], false);
                handleField(currentPlayer);
+               gui.getFields()[currentPlayer.getLocation()].setCar(GUIplayers[currentPlayer.getGUIid()], true);
 
-               System.out.println("new balance for " + currentPlayer.getName() + " is: " + currentPlayer.getBalance());
+               GUIplayers[currentPlayer.getGUIid()].setBalance(currentPlayer.getBalance());
+
+               gui.showMessage("new balance for " + currentPlayer.getName() + " is: " + currentPlayer.getBalance());
+
 
 
             } while (currentPlayer.isInJail());

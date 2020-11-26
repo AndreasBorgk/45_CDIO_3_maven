@@ -1,10 +1,11 @@
 package MonopolyJunior;
 
+import gui_fields.*;
+
+import java.awt.*;
+
 public class Board {
     private IField[]fields = new IField[24];
-
-
-
 
     public Board()
     {
@@ -93,5 +94,4 @@ public class Board {
     public IField getField(int location) {
         return fields[location];
     }
-
 }
