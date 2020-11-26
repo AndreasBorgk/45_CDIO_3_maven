@@ -47,7 +47,7 @@ public class Board {
         skaterparken.setAssociation(swimmingpoolen);
         swimmingpoolen.setAssociation(skaterparken);
 
-        fields[i++] = new Field("Gratis Parkering",0);
+        fields[i++] = new FreeParking("Gratis Parkering, tag en pause. Du springer en runde over");
 
         Property spillehallen = new Property("Spillehallen",3);
         fields[i++] = spillehallen;

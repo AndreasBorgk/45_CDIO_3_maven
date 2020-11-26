@@ -8,9 +8,9 @@ public class Player {
     private int location = 0;
     private Balance balance;
     private int gamesWon = 0;
-    private Boolean inJail = false;
+    private boolean inJail = false;
     boolean broken = false;
-
+    private boolean onVacation = false;
 
     Player(String name, int age)
     {
@@ -72,8 +72,20 @@ public class Player {
         inJail = true;
     }
 
-    public Boolean isInJail() {
+    public boolean isInJail() {
         return inJail;
+    }
+
+    public void setOnVacation() {
+        onVacation = true;
+    }
+
+    public boolean isOnVacation() {
+        return onVacation;
+    }
+
+    public void homeFromVacation() {
+        onVacation = false;
     }
 
 

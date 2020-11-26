@@ -21,12 +21,6 @@ import java.util.Scanner;
             return f.name;
         }
 
-//        private static int fieldValue(Player currentPlayer)
-//        // prints out the fieldValue for the current location.
-//        {
-//            IField f = b.getField(currentPlayer.getLocation());
-//            return f.value;
-//        }
 
         private static String playerName() {
             System.out.println("what is your name? ");
@@ -119,6 +113,17 @@ import java.util.Scanner;
             f.handlePlayer(currentPlayer);
         }
 
+        private static void handleIfPlayerIsOnVacation(Player currentPlayer){
+            if(currentPlayer.isOnVacation()){
+                nextPlayersTurn();
+                currentPlayer.homeFromVacation();
+            }
+        }
+
+        private static void handleSpecialChanceCard(Player currentPlayer){
+            if()
+        }
+
         private static void printOutFieldInfo(Player currentPlayer){
             System.out.println(currentPlayer.getName() + " rolls: " + currentPlayer.getFaceValue());
 
@@ -142,10 +147,12 @@ import java.util.Scanner;
             //used from CDIO1, with changes.
            do {
                System.out.println(currentPlayer.getName() + " press 'K' if you are ready to throw");
+               handleIfPlayerIsOnVacation(currentPlayer);
                sc.next(); // ask if theyre ready to throw, by pressing K they throw.
 
+
                handleIfPlayerIsInJail(currentPlayer);
-               //handleSpecialChanceCard(currentPlayer);  // Chancekort hvor man skal springe til et felt før næste runde.
+               handleSpecialChanceCard(currentPlayer);  // Chancekort hvor man skal springe til et felt før næste runde.
                currentPlayer.roll(); // player rolls the dice
                printOutFieldInfo(currentPlayer);
 

@@ -48,8 +48,8 @@ public class TakeChanceCard extends IField{
                 "if not owned get it for free, else pay rent", 0, 10);
 
 
-        cards[i++] = new moveCards("Move to Strandpromenaden",23);
-        cards[i++] = new moveCards("Move to Start and receive 2M",0);
+        cards[i++] = new MoveCards("Move to Strandpromenaden",23);
+        cards[i++] = new MoveCards("Move to Start and receive 2M",0);
 
         cards[i++] = new MoneyCard("You ate to much, pay 2M to the bank",-2);
         cards[i++] = new MoneyCard("Its your birthday, you receive 1M from all players",1);

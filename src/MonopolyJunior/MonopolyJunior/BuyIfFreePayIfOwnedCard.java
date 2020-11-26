@@ -13,6 +13,7 @@ int price;
 
     @Override
     void handlePlayer(Player player) {
+        player.setLocation(player.getFaceValue());
 
     }
 }

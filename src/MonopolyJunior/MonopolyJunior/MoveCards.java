@@ -1,11 +1,11 @@
 package MonopolyJunior;
 
-public class moveCards extends ICards {
+public class MoveCards extends ICards {
     public int moveTo;
 
 
 
-    public moveCards(String name, int moveTo){
+    public MoveCards(String name, int moveTo){
         super(name);
         this.moveTo = moveTo;
 
