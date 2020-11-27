@@ -1,5 +1,6 @@
 package MonopolyJunior;
 
+
 public class Player {
     private String name;
     private Dice dice1;
@@ -9,7 +10,15 @@ public class Player {
     private boolean inJail = false; // puts player out of jail
     private boolean onVacation = false; // sets player out of parking
     private boolean gotOutOfPrisonCard = false; // returns that the player has no prisoncard
+    int GUIid;
 
+    public int getGUIid() {
+        return GUIid;
+    }
+
+    public void setGUIid(int GUIid) {
+        this.GUIid = GUIid;
+    }
 
     Player(String name, int age, Balance balance){
         this.name = name;

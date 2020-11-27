@@ -1,6 +1,8 @@
 package MonopolyJunior;
 
-public class TakeChanceCard extends IField{
+import static MonopolyJunior.RunGame.gui;
+
+public class TakeChanceCard extends IField {
     private final int NUMBER_OF_CARDS = 16;
     private ICards[]cards = new ICards[NUMBER_OF_CARDS];
     int chosenCard;
@@ -26,9 +28,9 @@ public class TakeChanceCard extends IField{
     void handlePlayer(Player player) {
         ICards newCard = pickACard(); // picks a random card from the ChanceCard
 
-        System.out.println(player.getName() + " landed on a Chance card field. You may draw a card");
+        gui.showMessage(player.getName() + " landed on a Chance card field. You may draw a card");
 
-        System.out.println("you got the card: " + newCard.name); // prints out the info about the card
+        gui.showMessage("you got the card: " + newCard.name); // prints out the info about the card
 
         newCard.handlePlayer(player); // makes the player do what the card told him to
 

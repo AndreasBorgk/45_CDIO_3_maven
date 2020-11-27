@@ -3,6 +3,8 @@ package MonopolyJunior;
 import java.util.Properties;
 import java.util.Scanner;
 
+import static MonopolyJunior.RunGame.gui;
+
 public class JumpToOneOfTwoColors extends ICards {
     private String color1;
     private String color2;
@@ -20,23 +22,25 @@ public class JumpToOneOfTwoColors extends ICards {
     }
 
     private String selectedColor(){
-        System.out.println("Would you like to jump to " + color1 + " , press 1. Jump to " + color2 + ", press 2.");
+        gui.showMessage("Would you like to jump to " + color1 + " , press 1. Jump to " + color2 + ", press 2.");
             // gives us the opportunity to choose between the two colors asked. returns the chosen color.
-        int chosenColor = sc.nextInt();
-        if(chosenColor == 1){
+        boolean chosenColor = (gui.getUserLeftButtonPressed("Choose color ", "1", "2"));
+        if(chosenColor == true){
             return color1;
         } else
         return color2;
     }
 
 
+
     private Property selectedProperty(Property[]properties){
-        System.out.println("Would you like to jump to " + properties[0].name + " press 1. Jump to " + properties[1].name + ", pres 2");
-            // gives us the opportunity to choose between the two properties by the color chosen
-        int chosenProperty = sc.nextInt();
-        if(chosenProperty == 1){
+        gui.showMessage("Would you like to jump to " + properties[0].name + " press 1. Jump to " + properties[1].name + ", pres 2");
+        // gives us the opportunity to choose between the two properties by the color chosen
+
+        boolean chosenProperty = (gui.getUserLeftButtonPressed("Choose property ", "1", "2"));
+        if(chosenProperty == true){
             return properties[0];
-        }else
+        }
             return properties[1];
     }
 

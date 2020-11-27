@@ -1,5 +1,7 @@
 package MonopolyJunior;
 
+import static MonopolyJunior.RunGame.gui;
+
 public class MoveCards extends ICards {
     public int moveTo;
 
@@ -15,8 +17,8 @@ public class MoveCards extends ICards {
     void handlePlayer(Player player) {
         player.setLocation(moveTo); // move to the field given by the card.
 
-        System.out.println("your card told you to move to the following field: " + moveTo);
-        System.out.println(player.getLocation() + " is your new location"); // shows new location
+        gui.showMessage("your card told you to move to the following field: " + moveTo);
+        gui.showMessage(player.getLocation() + " is your new location"); // shows new location
 
     }
 }
