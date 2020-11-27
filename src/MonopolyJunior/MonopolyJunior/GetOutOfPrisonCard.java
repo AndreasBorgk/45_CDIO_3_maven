@@ -7,6 +7,7 @@ public class GetOutOfPrisonCard extends ICards {
         this.jailCard = jailCard;
     }
 
+
     @Override
     void handlePlayer(Player player) {
 
