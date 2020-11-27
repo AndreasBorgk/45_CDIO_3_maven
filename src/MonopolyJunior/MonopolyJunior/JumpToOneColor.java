@@ -22,7 +22,7 @@ Scanner sc = new Scanner(System.in);
 
 
     private Property selectedProperty(Property[]properties) {
-        System.out.println("Would you like to jump to" + properties[0] + " press 1. Jump to " + properties[1] + ", pres 2");
+        System.out.println("Would you like to jump to " + properties[0].name + " press 1. Jump to " + properties[1].name + ", pres 2");
         int chosenProperty = sc.nextInt();
         if (chosenProperty == 1) {
             return properties[0];

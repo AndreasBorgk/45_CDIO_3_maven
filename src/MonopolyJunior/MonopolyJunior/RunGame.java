@@ -99,6 +99,24 @@ import java.util.Scanner;
 
         }
 
+        private static void amountOfMoney() {
+            for (int i = 0; i < playerCount; i++) {
+                System.out.println(players[i].getName() + " " +
+                        "ended the game with the money: M" + players[i].getBalance());
+            }
+        }
+
+        private static Player winnerOfGame() {
+                Player winnerOfGame= null;
+                for(Player player:players){
+                    if(winnerOfGame == null || winnerOfGame.getBalance() < player.getBalance()){
+                        winnerOfGame = player;
+                    }
+                }
+                return winnerOfGame;
+            }
+
+
         private static boolean handleIfPlayerHasGetOutOfPrisonCard(Player currentPlayer){
             if(currentPlayer.hasGetOutOfPrisonCard()){
                 currentPlayer.gottenOutOfPrisonCard();
@@ -189,6 +207,9 @@ import java.util.Scanner;
 
             if (currentPlayer.isGameDone()) {
                 System.out.println(currentPlayer.getName() + " is broke and has lost the game");
+                amountOfMoney();
+
+                System.out.println("the winner of the game is: " + winnerOfGame().getName());
 
             }
 
