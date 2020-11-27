@@ -9,8 +9,8 @@ public class MoveToStartField extends ICards {
 
     @Override
     void handlePlayer(Player player) {
-        player.setLocation(0);
-        player.getStartMoney();
+        player.setLocation(0); // sets location = 0.
+        player.getStartMoney(); // Hands player money for passing start.
 
     }
 }

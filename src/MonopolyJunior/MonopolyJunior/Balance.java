@@ -2,34 +2,22 @@ package MonopolyJunior;
 
 public class Balance {
     private int value;
-    private int defaultValue;
 
     public Balance(int value) {
         this.value = value;
-        this.defaultValue = value;
+
     }
 
-    public Balance()
-    {
-        defaultValue = 0;
-        reset();
-    }
 
     public void add(int value){
-        this.value += value;
+        this.value += value; // adds the value to our current balance
 
     }
 
 
-    public boolean isBroke() {
-        return value < 0;
-    }
 
     public int get(){
         return value;
-    }
+    } // returns balance
 
-    public void reset(){
-        value = defaultValue;
-    }
 }

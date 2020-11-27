@@ -6,9 +6,9 @@ public class Player {
     private int age;
     private int location = 0;
     private Balance balance;
-    private boolean inJail = false;
-    private boolean onVacation = false;
-    private boolean gotOutOfPrisonCard = false;
+    private boolean inJail = false; // puts player out of jail
+    private boolean onVacation = false; // sets player out of parking
+    private boolean gotOutOfPrisonCard = false; // returns that the player has no prisoncard
 
 
     Player(String name, int age, Balance balance){
@@ -34,20 +34,20 @@ public class Player {
     }
 
     public void buyProperty(int value) {
-        balance.add(-value);
+        balance.add(-value); // subtracts the value of the field bought from balance.
     }
 
 
     public void payRent(int value){
-        balance.add(-value);
+        balance.add(-value); // subtracts the value of the rent from balance
     }
 
     public void payFine(int value) {
-        balance.add(-value);
+        balance.add(-value); // subtracts the fine from your balance.
     }
 
     public void getRent(int value) {
-        balance.add(value);
+        balance.add(value); // adds the rent to your balance
     }
 
     public void addBalance(int value){
@@ -56,7 +56,7 @@ public class Player {
 
 
     public void setInJail(){
-        inJail = true;
+        inJail = true; // sets the person inJail.
     }
 
     public boolean isInJail() {
@@ -64,7 +64,7 @@ public class Player {
     }
 
     public void setOnVacation() {
-        onVacation = true;
+        onVacation = true; // sets the person on vacation while parking
     }
 
     public boolean isOnVacation() {
@@ -72,27 +72,28 @@ public class Player {
     }
 
     public void homeFromVacation() {
-        onVacation = false;
+        onVacation = false; // "releases" the person from parking. which means he can play next turn
     }
 
 
     public void releaseFromJail() {
-        inJail = false;
+        inJail = false; // releases the player from jail
     }
 
     public void getStartMoney() {
-        addBalance(2);
+        addBalance(2); // hands the player 2 money to balance
     }
 
 
-    void roll() {
+    void roll() { // used from CDIO1 and 2 with changes.
         dice1.roll();
 
         dice1.getFaceValue();
 
         location = (location + dice1.getFaceValue());
 
-        if(location >= 24){
+        if(location >= 24){ // makes the location run in a loop of field numbers.
+            // makes the player only get money if he passes start by default
             location = location %24;
             getStartMoney();
         }
@@ -121,6 +122,7 @@ public class Player {
 
     boolean isGameDone() {
         return balance.get() < 0;
+            // checks if a players balance is below 0.
     }
 
     public int getLocation() {

@@ -13,9 +13,10 @@ public class MoveCards extends ICards {
 
     @Override
     void handlePlayer(Player player) {
-        player.setLocation(moveTo);
+        player.setLocation(moveTo); // move to the field given by the card.
+
         System.out.println("your card told you to move to the following field: " + moveTo);
-        System.out.println(player.getLocation() + " is your new location");
+        System.out.println(player.getLocation() + " is your new location"); // shows new location
 
     }
 }

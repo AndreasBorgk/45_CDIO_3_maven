@@ -101,9 +101,11 @@ public class Board {
     }
 
 
-    public Property[] getPropertiesByColor(String color){
+    public Property[] getPropertiesByColor(String color){ // gives us the properties with the given color
         Property[] coloredProperties = new Property[2];
+
         int i = 0;
+
         for(Property property: properties){
             if(property.getColor() == color){
                 coloredProperties[i] = property;
@@ -114,15 +116,16 @@ public class Board {
         return coloredProperties;
     }
 
-    public int getPropertyLocation(Property property){
+    public int getPropertyLocation(Property property){ // gives us the location of the given property.
         int i = 0;
+
         for(IField field : fields){
             if(field == property){
                 return i;
-
             }
             i++;
         }
+
         return -1;
     }
 

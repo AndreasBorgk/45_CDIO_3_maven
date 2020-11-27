@@ -11,7 +11,8 @@ public class MoneyCard extends ICards {
 
     @Override
     void handlePlayer(Player player) {
-        player.addBalance(value);
+        player.addBalance(value); // adds or substracts the value given by the card
+
         System.out.println("you got a money card. you get: " + value + " $");
     }
 }
