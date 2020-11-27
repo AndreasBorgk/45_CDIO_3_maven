@@ -1,25 +1,15 @@
 package MonopolyJunior;
 
 public class Player {
-    private Balance startvalue;
     private String name;
     private Dice dice1;
     private int age;
     private int location = 0;
     private Balance balance;
-    private int gamesWon = 0;
     private boolean inJail = false;
-    boolean broken = false;
     private boolean onVacation = false;
+    private boolean gotOutOfPrisonCard = false;
 
-    Player(String name, int age)
-    {
-        this.name = name;
-        this.age = age;
-        dice1 = new Dice();
-        balance = new Balance();
-
-    }
 
     Player(String name, int age, Balance balance){
         this.name = name;
@@ -27,9 +17,6 @@ public class Player {
         dice1 = new Dice();
         this.balance = balance;
     }
-
-
-
 
 
     String getName()
@@ -93,23 +80,44 @@ public class Player {
         inJail = false;
     }
 
+    public void getStartMoney() {
+        addBalance(2);
+    }
+
 
     void roll() {
         dice1.roll();
 
         dice1.getFaceValue();
 
-        location = (location + dice1.getFaceValue())%24;
+        location = (location + dice1.getFaceValue());
+
+        if(location >= 24){
+            location = location %24;
+            getStartMoney();
+        }
 
     }
 
     int getFaceValue(){
         return dice1.getFaceValue();
     }
+
     public void setLocation(int location) {
-        this.location = location % 24;
+        this.location = location;
     }
 
+    public void gottenOutOfPrisonCard(){
+        gotOutOfPrisonCard = true;
+    }
+
+    boolean hasGetOutOfPrisonCard() {
+        return gotOutOfPrisonCard;
+    }
+
+    public void prisonCardUsed(){
+        gotOutOfPrisonCard = false;
+    }
 
     boolean isGameDone() {
         return balance.get() < 0;
@@ -119,24 +127,8 @@ public class Player {
         return location;
     }
 
-    void incGamesWon() {
-        gamesWon++;
-    }
-
-    int getGamesWon() {
-        return gamesWon;
-    }
-
-    void newGame(){
-        location = 0;
-        this.balance.reset(); // as we use balance.reset, we set value of our balance = 1000.
-
-    }
 
 
-    public boolean isBroke() {
-        return broken;
-    }
 
 
 }

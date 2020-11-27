@@ -5,6 +5,13 @@ public class Property extends IField {
     private int price;
     private Property associated;
 
+    public String getColor() {
+        return color;
+    }
+
+    private String color;
+
+
     public boolean propertiesHaveSameOwner()
     {
         if(getOwner() == null)
@@ -13,18 +20,19 @@ public class Property extends IField {
     }
 
 
-    public Property(String name, int price){
+    public Property(String name, int price, String color){
         super(name);
         this.price = price;
         owner = null;
+        this.color = color;
     }
 
-
-    public void handlePlayer(Player player) {
-
+    public void handlePlayerExtended(Player player, boolean propertyIsFree){
         if(owner == null)
         {
-            player.buyProperty(price);
+            if(!propertyIsFree) {
+                player.buyProperty(price);
+            }
             owner = player;
             System.out.println("this property had no owner, new owner is: " + player.getName());
         }
@@ -34,6 +42,12 @@ public class Property extends IField {
             handleRent(player);
             System.out.println(owner.getName() + " gets payed: " + price + ". His new balance is: " + owner.getBalance());
         }
+
+    }
+
+
+    public void handlePlayer(Player player) {
+        handlePlayerExtended(player,false);
     }
 
     public void setAssociation(Property associated){

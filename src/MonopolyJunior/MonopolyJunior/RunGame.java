@@ -99,13 +99,29 @@ import java.util.Scanner;
 
         }
 
-
-
-        private static void handleIfPlayerIsInJail(Player currentPlayer) {
-            if(currentPlayer.isInJail()){
-                currentPlayer.payFine(2);
-                currentPlayer.releaseFromJail();
+        private static boolean handleIfPlayerHasGetOutOfPrisonCard(Player currentPlayer){
+            if(currentPlayer.hasGetOutOfPrisonCard()){
+                currentPlayer.gottenOutOfPrisonCard();
+                currentPlayer.prisonCardUsed();
+                return true;
             }
+            return false;
+        }
+
+
+
+        private static boolean handleIfPlayerIsInJail(Player currentPlayer) {
+            if(currentPlayer.isInJail()){
+                if(currentPlayer.hasGetOutOfPrisonCard()){
+                    handleIfPlayerHasGetOutOfPrisonCard(currentPlayer);
+                } else {
+                    currentPlayer.payFine(2);
+                    System.out.println("you are in jail, and have to pay 2M to get out");
+                }
+                currentPlayer.releaseFromJail();
+                return true;
+            }
+            return false;
         }
         private static void handleField(Player currentPlayer) {
             IField f = b.getField(currentPlayer.getLocation());
@@ -113,16 +129,14 @@ import java.util.Scanner;
             f.handlePlayer(currentPlayer);
         }
 
-        private static void handleIfPlayerIsOnVacation(Player currentPlayer){
+        private static boolean handleIfPlayerIsOnVacation(Player currentPlayer){
             if(currentPlayer.isOnVacation()){
-                nextPlayersTurn();
                 currentPlayer.homeFromVacation();
+               return true;
             }
+            return false;
         }
 
-        private static void handleSpecialChanceCard(Player currentPlayer){
-            if()
-        }
 
         private static void printOutFieldInfo(Player currentPlayer){
             System.out.println(currentPlayer.getName() + " rolls: " + currentPlayer.getFaceValue());
@@ -145,36 +159,39 @@ import java.util.Scanner;
 
         private static void doTurn() {
             //used from CDIO1, with changes.
-           do {
-               handleIfPlayerIsOnVacation(currentPlayer);
+
+            if(handleIfPlayerIsOnVacation(currentPlayer)) return;
+            if(handleIfPlayerIsInJail(currentPlayer)) return;
+
                System.out.println(currentPlayer.getName() + " press 'K' if you are ready to throw");
                sc.next(); // ask if theyre ready to throw, by pressing K they throw.
 
-
-               handleIfPlayerIsInJail(currentPlayer);
-               handleSpecialChanceCard(currentPlayer);  // Chancekort hvor man skal springe til et felt før næste runde.
                currentPlayer.roll(); // player rolls the dice
                printOutFieldInfo(currentPlayer);
 
                handleField(currentPlayer);
 
                System.out.println("new balance for " + currentPlayer.getName() + " is: " + currentPlayer.getBalance());
+               System.out.println("");
 
-
-            } while (currentPlayer.isInJail());
-            } // the loop continues until a player hit the estimated value
+            }
 
 
 
         
 
         private static void playGame() { // used from cdio 1, with changes.
-            int round = 1; // sets start round to 1.
             setCurrentPlayer(0);
             do {
                 doTurn();
                 nextPlayersTurn();
             } while(!currentPlayer.isGameDone());
+
+            if (currentPlayer.isGameDone()) {
+                System.out.println(currentPlayer.getName() + " is broke and has lost the game");
+
+            }
+
 
             }
 
@@ -184,19 +201,13 @@ import java.util.Scanner;
 
             private static void newGame() { // Used from cdio1, but with changes.
                 setupGame();
-            String another = "y";
-                
-            while (another.equalsIgnoreCase("y")) { // asks if they want to play again
-                // if yes, newgame Method will be called.
                 playGame();
-                System.out.println();
-                System.out.println("would you like to play again? (y/n)");
-                another = sc.next();
+
 
 
             }
 
-        }
+
 
 
         public static void main(String[] args) {
