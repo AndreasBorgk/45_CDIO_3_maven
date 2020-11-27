@@ -9,7 +9,7 @@ public class Dice {
 
         }
 
-        public void roll()
+        public void roll() // used from CDIO 1 and 2 with changes
         {
             faceValue = (int)(Math.random()* MAX +1); // Ruller et tilfældigt tal mellem 1 og 6
         }

@@ -17,15 +17,20 @@ public class TakeChanceCard extends IField{
     private ICards pickACard() {
 
         chosenCard = (int) (Math.random() * NUMBER_OF_CARDS %NUMBER_OF_CARDS);
+
         return cards[chosenCard];
+        // choses a random card from the array given the math.random
     }
 
     @Override
     void handlePlayer(Player player) {
-        ICards newCard = pickACard();
+        ICards newCard = pickACard(); // picks a random card from the ChanceCard
+
         System.out.println(player.getName() + " landed on a Chance card field. You may draw a card");
-        System.out.println("you got the card: " + newCard.name);
-        newCard.handlePlayer(player);
+
+        System.out.println("you got the card: " + newCard.name); // prints out the info about the card
+
+        newCard.handlePlayer(player); // makes the player do what the card told him to
 
 
     }

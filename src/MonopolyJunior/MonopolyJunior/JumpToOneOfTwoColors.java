@@ -21,6 +21,7 @@ public class JumpToOneOfTwoColors extends ICards {
 
     private String selectedColor(){
         System.out.println("Would you like to jump to " + color1 + " , press 1. Jump to " + color2 + ", press 2.");
+            // gives us the opportunity to choose between the two colors asked. returns the chosen color.
         int chosenColor = sc.nextInt();
         if(chosenColor == 1){
             return color1;
@@ -28,8 +29,10 @@ public class JumpToOneOfTwoColors extends ICards {
         return color2;
     }
 
+
     private Property selectedProperty(Property[]properties){
         System.out.println("Would you like to jump to " + properties[0].name + " press 1. Jump to " + properties[1].name + ", pres 2");
+            // gives us the opportunity to choose between the two properties by the color chosen
         int chosenProperty = sc.nextInt();
         if(chosenProperty == 1){
             return properties[0];
@@ -42,8 +45,11 @@ public class JumpToOneOfTwoColors extends ICards {
     @Override
     void handlePlayer(Player player) {
         Property[]properties = b.getPropertiesByColor(selectedColor());
+
         Property playerSelectedProperty = selectedProperty(properties);
+
         player.setLocation(b.getPropertyLocation(playerSelectedProperty));
+
         playerSelectedProperty.handlePlayerExtended(player,true);
 
 

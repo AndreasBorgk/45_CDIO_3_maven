@@ -3,6 +3,7 @@ package MonopolyJunior;
 public abstract class IField {
     private Player owner;
     public String name = "";
+
     public IField(String name){
         this.name = name;
     }
@@ -14,5 +15,6 @@ public abstract class IField {
     public Player getOwner(){
         return owner;
     }
+
     abstract void handlePlayer(Player player);
 }

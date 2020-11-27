@@ -11,6 +11,8 @@ public class MoveExactNumberOfFields extends ICards{
     @Override
     void handlePlayer(Player player) {
         player.setLocation(moveNumberOfFields + player.getLocation());
+            // moves the number of fields given by the card from your current location.
+
         System.out.println("new position for player is: " + player.getLocation());
     }
 }
