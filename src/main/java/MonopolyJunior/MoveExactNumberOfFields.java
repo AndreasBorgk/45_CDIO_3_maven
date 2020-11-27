@@ -1,5 +1,7 @@
 package MonopolyJunior;
 
+import static MonopolyJunior.RunGame.gui;
+
 public class MoveExactNumberOfFields extends ICards{
     private int moveNumberOfFields;
     public MoveExactNumberOfFields(String name, int moveNumberOfFields) {
@@ -13,6 +15,6 @@ public class MoveExactNumberOfFields extends ICards{
         player.setLocation(moveNumberOfFields + player.getLocation());
             // moves the number of fields given by the card from your current location.
 
-        System.out.println("new position for player is: " + player.getLocation());
+        gui.showMessage("new position for player is: " + player.getLocation());
     }
 }

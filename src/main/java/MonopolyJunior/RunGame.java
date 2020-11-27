@@ -1,5 +1,8 @@
 package MonopolyJunior;
 
+import gui_fields.GUI_Street;
+import gui_fields.GUI_Player;
+import gui_main.GUI;
 
 import java.util.Scanner;
 
@@ -11,12 +14,16 @@ import java.util.Scanner;
         private static int currentPlayerNumber;
         private static int playerCount;
         private static Player currentPlayer;
+        private static GUIBoard gb = new GUIBoard();
+        private static GUI_Player[] GUIplayers;
 
-
+        static GUI gui = new GUI(gb.getFields());
 
         private static String fieldName(Player currentPlayer) // prints out the given locations
         // fieldname for the current player
         {
+            GUI_Street gf = (GUI_Street) gb.getFields(currentPlayer.getLocation());
+
             IField f = b.getField(currentPlayer.getLocation());
             return f.name;
         }
@@ -24,41 +31,33 @@ import java.util.Scanner;
 
         private static String playerName() {
             // asks for the players name and return the name.
-            System.out.println("what is your name? ");
-            
-            Scanner name = new Scanner(System.in);
-
-            String nameVal = name.nextLine();
+            String nameVal = gui.getUserString("what is your name? ");
 
             return nameVal;
         }
+
         private static int playerAge() {
             // asks for the players age and return the age.
-            System.out.println("How old are you? ");
+            int ageVal = gui.getUserInteger("How old are you? ");
 
-            Scanner age = new Scanner(System.in);
-
-            int ageVal = age.nextInt();
 
             return ageVal;
         }
 
 
         private static int getPlayerCount() {
-            System.out.println("How many players are playing? ");
-
-            Scanner amountScanner = new Scanner(System.in);
             // asks how many players plays.
 
             while (true) {
-                playerCount = amountScanner.nextInt();
+                playerCount =  gui.getUserInteger("How many are playing?",2,4);
 
                 if(playerCount < 2) {
-                    System.out.println("You are not enough players.");
+                    gui.showMessage("You are not enough players.");
                 }  else if (playerCount > 4) {
-                    System.out.println("you are too many players");
+                    gui.showMessage("you are too many players");
                 }  else {
-                    System.out.println(playerCount + " players are playing.");
+                    gui.showMessage(playerCount + " players are playing.");
+                    GUIplayers = new GUI_Player[playerCount];
                     return playerCount;
                 }
                 // if statement to check that there is only between 2 and 4 players.
@@ -83,28 +82,33 @@ import java.util.Scanner;
                     startAmount = 16;
                     break;
             }
-            System.out.println("each player start with: " + startAmount);
+            gui.showMessage("each player start with: " + startAmount);
             return startAmount;
         }
 
+        private static void addguiplayer(int i, String name,int balance){
 
+            GUIplayers[i] = new GUI_Player(name, balance);
+            gui.addPlayer(GUIplayers[i]);
+
+            gui.getFields()[0].setCar(GUIplayers[i], true);
+
+        }
         private static void setupGame(){
-            System.out.println("rule for our Monopoly Junior game: \n");
-            System.out.println("1. You have to be between 2 and 4 players. \n" +
+            gui.showMessage("Rules for Monopoly Junior: \n");
+            gui.showMessage("1. You have to be between 2 and 4 players. \n" +
                     "2. if youre 2 players, you start with 20M. if you're 3 you start with 18M, " +
                     "and if youre 4 you start with 16M\n" +
                     "3. The game will be played as followed: \n" +
                     "You start by rolling the dice and move the following facevalue on the field.\n" +
                     "If you land on a field without an owner, you have to buy it." +
-                    "If the field has an owner, you have to pay him rent \n" +
-                    "if you own both fields of the same color, you get payed double rent\n" +
-                    "If land on free parking, you will sit out one round\n" +
-                    "If you land on go to jail, you will go to the jail field, and either pay 1M to get out," +
+                    "If the field has an owner, you have to pay him rent \n");
+
+            gui.showMessage("If you land on go to jail, you will go to the jail field, and either pay 1M to get out," +
                     "or use your jailcard. \n" +
                     "Everytime you pass start, you'll receive 2M. \n"+
                     "The game is done, when a player happens to be broke, which means he has negative balance. \n" +
                     "The winner is the one with most money on hand");
-
             getPlayerCount();
 
             int startAmount = calcStartAmount();
@@ -118,7 +122,11 @@ import java.util.Scanner;
 
                players[i] = new Player(playerName(), playerAge(), new Balance(startAmount));
 
-                System.out.println(players[i].getName() + " is " + players[i].getAge() + " years old. ");
+               players[i].setGUIid(i);
+
+                addguiplayer(i, players[i].getName(), players[i].getBalance());
+
+                gui.showMessage(players[i].getName() + " is " + players[i].getAge() + " years old. ");
 
             }
 
@@ -129,7 +137,7 @@ import java.util.Scanner;
             for (int i = 0; i < playerCount; i++) {
 
                 // prints out the name of player index and his balance.
-                System.out.println(players[i].getName() + " " +
+                gui.showMessage(players[i].getName() + " " +
                         "ended the game with the money: M" + players[i].getBalance());
             }
         }
@@ -178,7 +186,7 @@ import java.util.Scanner;
                 } else {
                     // else he pays a fine to get out of jail
                     currentPlayer.payFine(1);
-                    System.out.println("you are in jail, and have to pay 1M to get out");
+                    gui.showMessage("you are in jail, and have to pay 1M to get out");
                 }
 
                 currentPlayer.releaseFromJail();
@@ -213,7 +221,7 @@ import java.util.Scanner;
         private static void printOutFieldInfo(Player currentPlayer){
             System.out.println(currentPlayer.getName() + " rolls: " + currentPlayer.getFaceValue());
 
-            System.out.println("You landed on field:  " + currentPlayer.getLocation() + ", " + fieldName(currentPlayer));
+            gui.showMessage("You landed on field:  " + currentPlayer.getLocation() + ", " + fieldName(currentPlayer));
             // prints out the roll of the dice and his new location and what field it is
         }
 
@@ -239,29 +247,33 @@ import java.util.Scanner;
 
         private static void doTurn() {
             //used from CDIO1, with changes.
+            gui.getFields()[currentPlayer.getLocation()].setCar(GUIplayers[currentPlayer.getGUIid()], false);
+                if (handleIfPlayerIsOnVacation(currentPlayer)) return;
+                // checks if he is on the parking spot
 
-            if(handleIfPlayerIsOnVacation(currentPlayer)) return;
-            // checks if he is on the parking spot
-
-            if(handleIfPlayerIsInJail(currentPlayer)) return;
-            // checks if he is in jail
+                if (handleIfPlayerIsInJail(currentPlayer)) return;
+                // checks if he is in jail
 
 
-               System.out.println(currentPlayer.getName() + " press 'K' if you are ready to throw");
-               sc.next(); // ask if theyre ready to throw, by pressing K they throw.
+                if (gui.getUserLeftButtonPressed(" ", "Roll Die", " ")) {
+                    currentPlayer.roll();
+                }
+                ; // player rolls the dice
+                gui.getFields()[currentPlayer.getLocation()].setCar(GUIplayers[currentPlayer.getGUIid()], true);
+                gui.setDie(currentPlayer.getFaceValue());
+                printOutFieldInfo(currentPlayer);
 
-               currentPlayer.roll(); // player rolls the dice
-               printOutFieldInfo(currentPlayer); // prints out the field info
 
-               handleField(currentPlayer);
-               // makes the player do what the given fields tell him to.
+                gui.getFields()[currentPlayer.getLocation()].setCar(GUIplayers[currentPlayer.getGUIid()], false);
+                handleField(currentPlayer);
+                gui.getFields()[currentPlayer.getLocation()].setCar(GUIplayers[currentPlayer.getGUIid()], true);
 
-               System.out.println("new balance for " + currentPlayer.getName() + " is: " + currentPlayer.getBalance());
-               System.out.println("");
-               // tells the currentplayer what his balance is
+                GUIplayers[currentPlayer.getGUIid()].setBalance(currentPlayer.getBalance());
 
-            }
+                gui.showMessage("new balance for " + currentPlayer.getName() + " is: " + currentPlayer.getBalance());
 
+
+        }
 
 
         
@@ -275,12 +287,12 @@ import java.util.Scanner;
 
             if (currentPlayer.isGameDone()) {
 
-                System.out.println(currentPlayer.getName() + " is broke and has lost the game");
+                gui.showMessage(currentPlayer.getName() + " is broke and has lost the game");
                 amountOfMoney();
                 // prints out the player name and tells him he is broke
                 // prints out the value the players balance.
 
-                System.out.println("the winner of the game is: " + winnerOfGame().getName());
+                gui.showMessage("the winner of the game is: " + winnerOfGame().getName());
                 // gets the winner of the game by name and total money
 
             }

@@ -1,5 +1,9 @@
 package MonopolyJunior;
 
+import MonopolyJunior.IField;
+
+import static MonopolyJunior.RunGame.gui;
+
 public class Property extends IField {
     private Player owner;
     private int price;
@@ -38,15 +42,15 @@ public class Property extends IField {
 
             // sets the owner = currentplayer as he has gotten it for free if the property is free
             owner = player;
-            System.out.println("this property had no owner, new owner is: " + player.getName());
+            gui.showMessage("this property had no owner, new owner is: " + player.getName());
         }
         else if (owner != player)
         {
             // if the owner is different from the currentplayer he pays rent
-            System.out.println("this property is owned by " + owner.getName() + " , pay rent price");
+            gui.showMessage("this property is owned by " + owner.getName() + " , pay rent price");
 
             handleRent(player);
-            System.out.println(owner.getName() + " gets payed: " + price + ". His new balance is: " + owner.getBalance());
+            gui.showMessage(owner.getName() + " gets payed: " + price + ". His new balance is: " + owner.getBalance());
         }
 
     }
@@ -66,7 +70,7 @@ public class Property extends IField {
 
         if(propertiesHaveSameOwner()) {
             // makes currentplayer pay double rent if the two associated properties have same owner
-            System.out.println("This field is owned by " + owner + "the associated field is owned by him aswel. you pay double rent");
+            gui.showMessage("This field is owned by " + owner + "the associated field is owned by him aswel. you pay double rent");
             calcPrice = price * 2;
             player.payRent(calcPrice);
             owner.getRent(calcPrice);
